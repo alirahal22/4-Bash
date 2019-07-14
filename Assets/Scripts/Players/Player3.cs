@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class Player2 : MonoBehaviour
+public class Player3 : MonoBehaviour
 {
     Rigidbody rb;
     Vector3 beforeCollisionVelocity;
 
     float c = 1.68012451f;
-    float z = 0;
-    float x = 1.68012451f;
+    float x = 0;
+    float z = -1.68012451f;
 
-    float oldYAngle = 90;
-    float newYAngle = 90;
+    float oldYAngle = 180;
+    float newYAngle = 180;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Level2.AddTag("1");
-        tag = "1";
+        Level2.AddTag("2");
+        tag = "2";
     }
 
     // Update is called once per frame
@@ -28,34 +28,40 @@ public class Player2 : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.U))
         {
             z = c;
             x = 0;
             newYAngle = 0;
-
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.J))
         {
             z = -c;
             x = 0;
             newYAngle = 180;
-
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.H))
         {
             x = -c;
             z = 0;
             newYAngle = -90;
-
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             x = c;
             z = 0;
             newYAngle = 90;
         }
         transform.eulerAngles = new Vector3(0, oldYAngle, 0);
+
+
+        if (transform.position.y < 0)
+        {
+            Debug.Log("Player 3 Lost");
+            Level1.survivors[2] = 0;
+        }
+
+
     }
 
     private void OnCollisionEnter(Collision collision)

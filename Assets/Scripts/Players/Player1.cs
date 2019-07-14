@@ -3,22 +3,24 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class Player4 : MonoBehaviour
+public class Player1 : MonoBehaviour
 {
     Rigidbody rb;
     Vector3 beforeCollisionVelocity;
 
+
     float c = 1.68012451f;
-    float z = 0;
-    float x = -1.68012451f;
-    float oldYAngle = -90;
-    float newYAngle = -90;
+    float x = 0;
+    float z = 1.68012451f;
+
+    float oldYAngle = 0;
+    float newYAngle = 0;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Level2.AddTag("3");
-        tag = "3";
+        Level2.AddTag("0");
+        tag = "0";
     }
 
     // Update is called once per frame
@@ -28,31 +30,37 @@ public class Player4 : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
-        if (Input.GetKeyDown(KeyCode.Keypad8))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             z = c;
             x = 0;
             newYAngle = 0;
         }
-        if (Input.GetKeyDown(KeyCode.Keypad5))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             z = -c;
             x = 0;
             newYAngle = 180;
         }
-        if (Input.GetKeyDown(KeyCode.Keypad4))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             x = -c;
             z = 0;
             newYAngle = -90;
         }
-        if (Input.GetKeyDown(KeyCode.Keypad6))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             x = c;
             z = 0;
             newYAngle = 90;
         }
         transform.eulerAngles = new Vector3(0, oldYAngle, 0);
+
+        if(transform.position.y < 0)
+        {
+            Debug.Log("Player 1 Lost");
+            Level1.survivors[0] = 0;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -72,8 +80,7 @@ public class Player4 : MonoBehaviour
         if (collision.transform.tag.Equals("Box"))
         {
             rb.velocity = beforeCollisionVelocity;
-        }
-        else
+        } else
         {
             oldYAngle = newYAngle;
             rb.velocity = new Vector3(x, c, z);
